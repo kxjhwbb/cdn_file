@@ -322,12 +322,12 @@
     <script>
         function copyCode(filePath, type) {
             let code;
-         const baseUrl = '//' + window.location.host + window.location.pathname.replace('/index.html', '') + '/';
+         const baseUrl = '//' + window.location.host + window.location.pathname.replace('/index.html', '');
             
             if (type === 'css') {
-                code = `<link rel="stylesheet" href="${baseUrl}${filePath}">`;
+                code = `<link rel="stylesheet" href="${baseUrl}/${filePath}">`;
             } else if (type === 'js') {
-                code = `<script src="${baseUrl}${filePath}"><\/script>`;
+                code = `<script src="${baseUrl}/${filePath}"><\/script>`;
             }
             
             // 复制到剪贴板
