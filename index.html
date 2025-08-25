@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDN 静态文件库</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .library-section {
+            margin-bottom: 40px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .library-header {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .library-title {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .library-description {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .file-list {
+            padding: 0;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.2s;
+        }
+        
+        .file-item:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .file-item:last-child {
+            border-bottom: none;
+        }
+        
+        .file-info {
+            flex: 1;
+        }
+        
+        .file-name {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .file-path {
+            font-size: 0.85em;
+            color: #666;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .file-type {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 500;
+            margin-right: 10px;
+        }
+        
+        .type-css {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .type-js {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+        
+        .copy-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.3s;
+            margin-left: 10px;
+        }
+        
+        .copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .copy-btn.copied {
+            background: #4caf50;
+        }
+        
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4caf50;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateX(400px);
+            transition: transform 0.3s;
+            z-index: 1000;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .stats {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .stats-item {
+            display: inline-block;
+            margin: 0 20px;
+        }
+        
+        .stats-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stats-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>CDN 静态文件库</h1>
+            <p>点击复制按钮获取 HTML 部署代码</p>
+        </div>
+        
+        <div class="content">
+            <div class="stats">
+                <div class="stats-item">
+                    <div class="stats-number">3</div>
+                    <div class="stats-label">库</div>
+                </div>
+                <div class="stats-item">
+                    <div class="stats-number">7</div>
+                    <div class="stats-label">文件</div>
+                </div>
+                <div class="stats-item">
+                    <div class="stats-number">4</div>
+                    <div class="stats-label">版本</div>
+                </div>
+            </div>
+            
+            <!-- LayUI -->
+            <div class="library-section">
+                <div class="library-header">
+                    <div class="library-title">LayUI</div>
+                    <div class="library-description">经典的模块化前端 UI 框架</div>
+                </div>
+                <div class="file-list">
+                    <div class="file-item">
+                        <div class="file-info">
+                            <div class="file-name">
+                                <span class="file-type type-css">CSS</span>
+                                layui.min.css
+                            </div>
+                            <div class="file-path">layui/2.8.10/layui.min.css</div>
+                        </div>
+                        <button class="copy-btn" onclick="copyCode('layui/2.8.10/layui.min.css', 'css')">复制 CSS 代码</button>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-info">
+                            <div class="file-name">
+                                <span class="file-type type-js">JS</span>
+                                layui.min.js
+                            </div>
+                            <div class="file-path">layui/2.8.10/layui.min.js</div>
+                        </div>
+                        <button class="copy-btn" onclick="copyCode('layui/2.8.10/layui.min.js', 'js')">复制 JS 代码</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- MDUI -->
+            <div class="library-section">
+                <div class="library-header">
+                    <div class="library-title">MDUI</div>
+                    <div class="library-description">Material Design 风格的前端框架</div>
+                </div>
+                <div class="file-list">
+                    <div class="file-item">
+                        <div class="file-info">
+                            <div class="file-name">
+                                <span class="file-type type-css">CSS</span>
+                                mdui.min.css (v0.4.3)
+                            </div>
+                            <div class="file-path">mdui/0.4.3/mdui.min.css</div>
+                        </div>
+                        <button class="copy-btn" onclick="copyCode('mdui/0.4.3/mdui.min.css', 'css')">复制 CSS 代码</button>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-info">
+                            <div class="file-name">
+                                <span class="file-type type-js">JS</span>
+                                mdui.min.js (v0.4.3)
+                            </div>
+                            <div class="file-path">mdui/0.4.3/mdui.min.js</div>
+                        </div>
+                        <button class="copy-btn" onclick="copyCode('mdui/0.4.3/mdui.min.js', 'js')">复制 JS 代码</button>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-info">
+                            <div class="file-name">
+                                <span class="file-type type-css">CSS</span>
+                                mdui.min.css (v2.1.4)
+                            </div>
+                            <div class="file-path">mdui/2.1.4/mdui.min.css</div>
+                        </div>
+                        <button class="copy-btn" onclick="copyCode('mdui/2.1.4/mdui.min.css', 'css')">复制 CSS 代码</button>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-info">
+                            <div class="file-name">
+                                <span class="file-type type-js">JS</span>
+                                mdui.global.min.js (v2.1.4)
+                            </div>
+                            <div class="file-path">mdui/2.1.4/mdui.global.min.js</div>
+                        </div>
+                        <button class="copy-btn" onclick="copyCode('mdui/2.1.4/mdui.global.min.js', 'js')">复制 JS 代码</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Qatrix -->
+            <div class="library-section">
+                <div class="library-header">
+                    <div class="library-title">Qatrix</div>
+                    <div class="library-description">轻量级 JavaScript 框架</div>
+                </div>
+                <div class="file-list">
+                    <div class="file-item">
+                        <div class="file-info">
+                            <div class="file-name">
+                                <span class="file-type type-js">JS</span>
+                                qatrix.min.js
+                            </div>
+                            <div class="file-path">qatrix/qatrix.min.js</div>
+                        </div>
+                        <button class="copy-btn" onclick="copyCode('qatrix/qatrix.min.js', 'js')">复制 JS 代码</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast">代码已复制到剪贴板！</div>
+    
+    <script>
+        function copyCode(filePath, type) {
+            let code;
+            const baseUrl = window.location.origin + window.location.pathname.replace('/index.html', '') + '/';
+            
+            if (type === 'css') {
+                code = `<link rel="stylesheet" href="${baseUrl}${filePath}">`;
+            } else if (type === 'js') {
+                code = `<script src="${baseUrl}${filePath}"><\/script>`;
+            }
+            
+            // 复制到剪贴板
+            navigator.clipboard.writeText(code).then(function() {
+                showToast();
+                // 临时改变按钮状态
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '已复制！';
+                btn.classList.add('copied');
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(function(err) {
+                // 如果 navigator.clipboard 不可用，使用传统方法
+                const textArea = document.createElement('textarea');
+                textArea.value = code;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showToast();
+            });
+        }
+        
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // 添加一些交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileItems = document.querySelectorAll('.file-item');
+            
+            fileItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateX(5px)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateX(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
